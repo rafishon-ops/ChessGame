@@ -6,21 +6,23 @@ public class Game {
 
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		int turn = 0;
 		int fiftyMoveRule = 0;
 		boolean fiftyMoveReset;
 		boolean gameOver = false;
 		Position position = new Position();
 		position.setUp();
+		position.printPosition();
 		while (!gameOver) {
 			fiftyMoveReset = Move.getMove(position, scan);
 			fiftyMoveRule++;
 			if (fiftyMoveReset) {
 				fiftyMoveRule = 0;
 			}
+			
+			//Check for game-ending conditions
 			if (position.checkmate()) {
 				gameOver = true;
-				if (turn == 0) {
+				if (position.getTurn() == 1) {
 					System.out.println("Checkmate. White wins.");
 				} else {
 					System.out.println("Checkmate. Black wins.");
@@ -28,31 +30,25 @@ public class Game {
 			}
 			if (position.stalemate()) {
 				gameOver = true;
-				System.out.println("Draw by stalemate");
+				System.out.println("Draw by stalemate.");
 			}
 			if (Position.repetition()) {
 				gameOver = true;
-				System.out.println("Draw by repetition");
+				System.out.println("Draw by repetition.");
 			}
 			if (position.insufficientMaterial()) {
 				gameOver = true;
-				System.out.println("Draw by insufficient material");
+				System.out.println("Draw by insufficient material.");
 			}
 			if (fiftyMoveRule == 100) {
 				gameOver = true;
-				System.out.println("Draw by fifty move rule");
+				System.out.println("Draw by fifty move rule.");
 			}
-			turn = ((turn + 1) % 2);
-			String result = "";
-			for (int i = 7; i > -1; i--) {
-				for (int j = 0; j < 8; j++) {
-					result += '|';
-					result += position.getBoard()[i][j];
-				}
-				result += "|\n";
-			}
-			System.out.println(result);
+			
+			//Print an updated position for the players
+			position.printPosition();
 
+			//Rotate en passant situations
 			for (int i = 0; i < 2; i++) {
 				for (int j = 0; j < 8; j++) {
 					if (position.getPieces()[i][j] != null) {

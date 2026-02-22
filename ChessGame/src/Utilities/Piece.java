@@ -69,25 +69,6 @@ public class Piece {
 		this.enPassant = enPassant;
 	}
 
-	// Promotes a pawn to the given choice
-	public void promote(char choice) {
-		this.piece = choice;
-	}
-
-	private static int min(int a, int b) {
-		if (a < b) {
-			return a;
-		}
-		return b;
-	}
-
-	private static int max(int a, int b) {
-		if (a > b) {
-			return a;
-		}
-		return b;
-	}
-
 	// Judges if a piece has access to a given square, provided the position thinks
 	// it's that piece's turn
 	public boolean hasAccessTo(int newRank, int newFile, Position position) {
@@ -153,7 +134,7 @@ public class Piece {
 	// Judges if a rook has access to a given square
 	public boolean rookAccess(int newRank, int newFile, Position position) {
 		if (rank == newRank) {
-			for (int i = min(file, newFile) + 1; i != max(file, newFile); i++) {
+			for (int i = Math.min(file, newFile) + 1; i != Math.max(file, newFile); i++) {
 				if (position.occupied(rank, i)) {
 					return false;
 				}
@@ -161,7 +142,7 @@ public class Piece {
 			return true;
 		}
 		if (file == newFile) {
-			for (int i = min(rank, newRank) + 1; i != max(rank, newRank); i++) {
+			for (int i = Math.min(rank, newRank) + 1; i != Math.max(rank, newRank); i++) {
 				if (position.occupied(i, file)) {
 					return false;
 				}
@@ -175,7 +156,7 @@ public class Piece {
 	public boolean bishopAccess(int newRank, int newFile, Position position) {
 		if (rank - newRank == file - newFile) {
 			for (int i = 1; i != Math.abs(rank - newRank); i++) {
-				if (position.occupied(min(rank, newRank) + i, min(file, newFile) + i)) {
+				if (position.occupied(Math.min(rank, newRank) + i, Math.min(file, newFile) + i)) {
 					return false;
 				}
 			}
@@ -183,7 +164,7 @@ public class Piece {
 		}
 		if (rank - newRank == newFile - file) {
 			for (int i = 1; i != Math.abs(rank - newRank); i++) {
-				if (position.occupied(min(rank, newRank) + i, max(newFile, file) - i)) {
+				if (position.occupied(Math.min(rank, newRank) + i, Math.max(newFile, file) - i)) {
 					return false;
 				}
 			}

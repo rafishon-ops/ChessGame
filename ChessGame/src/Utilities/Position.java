@@ -130,6 +130,18 @@ public class Position {
 		}
 		return position;
 	}
+	
+	public void printPosition() {
+		String result = "";
+		for (int i = 7; i > -1; i--) {
+			for (int j = 0; j < 8; j++) {
+				result += '|';
+				result += getBoard()[i][j];
+			}
+			result += "|\n";
+		}
+		System.out.println(result);
+	}
 
 	/*
 	 * Moves the piece at the given spot in the pieces array to the given square,
